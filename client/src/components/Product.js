@@ -4,7 +4,11 @@ const Product = ({ title, price, quantity }) => {
       <div className="product-details">
         <h3>{title}</h3>
         <p className="price">${price}</p>
-        <p className="quantity">{quantity} left in stock</p>
+        {quantity === 0 ? 
+          <p className="quantity none-left">{quantity} left in stock</p>
+        :
+          <p className="quantity">{quantity} left in stock</p>
+        }
         <div className="actions product-actions">
 					{quantity === 0 ?
 						<button className="add-to-cart" disabled>Add to Cart</button>

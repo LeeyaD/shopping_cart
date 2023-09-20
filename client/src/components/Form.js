@@ -12,6 +12,7 @@ const Form = ({ onFormVisibilityChange, onAddProduct }) => {
 			setProductName('')
 			setProductPrice('')
 			setProductQuantity('')
+			onFormVisibilityChange()
 		} catch(e) {
 			console.log(e)
 		}
