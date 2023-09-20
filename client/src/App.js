@@ -1,76 +1,62 @@
 import { useState, useEffect } from 'react'
-import dummyData from "./mockData/data.js"
 import Product from './components/Product.js'
+import Form from './components/Form.js'
+import axios from 'axios'
 
 const App = () => {
 
-	const [data, setData] = useState([])
-  // const [productName, setProductName] = useState('')
-  // const [productPrice, setProductPrice] = useState('')
-  // const [productQuantity, setProductQuantity] = useState('')
+  const [formVisible, setFormVisible] = useState(false)
+  const [products, setProducts] = useState([])
 
 	useEffect(() => {
-		setData(dummyData)
+    const fetchData = async() => {
+      const products = await axios.get('/api/products')
+      setProducts(products.data)
+    }
+    fetchData()
 	}, [])
+
+  const handleAddProduct = async (title, price, quantity) => {
+    const newProduct = await axios.post('/api/products', {
+      title,
+      price,
+      quantity,
+    })
+    setProducts(products.concat(newProduct.data))
+  }
+
+  const handleFormVisibility = () => {
+    const visibility = !formVisible
+    setFormVisible(visibility)
+    document.querySelector(".add-form").classList.toggle("visible")
+  }
+
+  // onSubmit event handler, takes 3 pieces of state
+  // sends POST req to axios '/products' 
 
 	return (
 		<div id="app">
-    <header>
-      <h1>The Shop!</h1>
-      <div className="cart">
-        <h2>Your Cart</h2>
-        <p>Your cart is empty</p>
-        <p>Total: $0</p>
-        <button className="checkout" disabled>Checkout</button>
-      </div>
-    </header>
+      <header>
+        <h1>The Shop!</h1>
+        <div className="cart">
+          <h2>Your Cart</h2>
+          <p>Your cart is empty</p>
+          <p>Total: $0</p>
+          <button className="checkout" disabled>Checkout</button>
+        </div>
+      </header>
 
     <main>
       <div className="product-listing">
         <h2>Products</h2>
         <ul className="product-list">
-					{data.map(product => <Product key={product.id} {...product} />)}
+					{products.map(product => <Product key={product["_id"]} {...product} />)}
         </ul>
       </div>
       <div className="add-form">
-        <p><button className="add-product-button">Add A Product</button></p>
+        <p><button onClick={handleFormVisibility} className="add-product-button">Add A Product</button></p>
         <h3>Add Product</h3>
-        <form>
-          <div className="input-group">
-            <label htmlFor="product-name">Product Name:</label>
-            <input
-              type="text"
-              id="product-name"
-              name="product-name"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="product-price">Price:</label>
-            <input
-              type="number"
-              id="product-price"
-              name="product-price"
-              min="0"
-              step="0.01"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="product-quantity">Quantity:</label>
-            <input
-              type="number"
-              id="product-quantity"
-              name="product-quantity"
-              min="0"
-              required
-            />
-          </div>
-          <div className="actions form-actions">
-            <button type="submit">Add</button>
-            <button type="button">Cancel</button>
-          </div>
-        </form>
+        <Form onFormVisibilityChange={handleFormVisibility} onAddProduct={handleAddProduct}/>
       </div>
     </main>
   </div>
