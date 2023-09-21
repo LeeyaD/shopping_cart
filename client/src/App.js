@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Product from './components/Product.js'
 import Form from './components/Form.js'
-import axios from 'axios'
+import { addProduct, getProducts } from './services/product.js'
 
 const App = () => {
 
@@ -10,19 +10,15 @@ const App = () => {
 
 	useEffect(() => {
     const fetchData = async() => {
-      const products = await axios.get('/api/products')
-      setProducts(products.data)
+      const products = await getProducts()
+      setProducts(products)
     }
     fetchData()
 	}, [])
 
   const handleAddProduct = async (title, price, quantity) => {
-    const newProduct = await axios.post('/api/products', {
-      title,
-      price,
-      quantity,
-    })
-    setProducts(products.concat(newProduct.data))
+    const data = addProduct(title, price, quantity)
+    setProducts(products.concat(data))
   }
 
   const handleFormVisibility = () => {
