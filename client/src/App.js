@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Product from './components/Product.js'
 import Form from './components/Form.js'
-import { addProduct, getProducts, deleteProduct } from './services/product.js'
+import { addProduct, getProducts, deleteProduct, editProduct } from './services/product.js'
 
 const App = () => {
   const [showForm, setShowForm] = useState(false)
@@ -60,6 +60,30 @@ const App = () => {
     return total.toFixed(2)
   }
 
+  const handleCheckout = () => {
+    const nextProducts = products.map(product => {
+      const nextProduct = {...product}
+      const foundItem = cartItems.find(item => nextProduct._id === item._id && item.cartQuantity )
+
+      if (foundItem) {
+        nextProduct.quantity = nextProduct.quantity - foundItem.cartQuantity
+      }
+
+      return nextProduct
+    })
+
+    const promises = nextProducts.map(async ({_id, title, price, quantity}) => {
+      return editProduct(_id, title, price, quantity);
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        setCartItems([])
+        setProducts(nextProducts)
+      })
+      .catch(err => console.log(err))
+  }
+
 	const formStyle = showForm ? "visible" : ""
 
 	return (
@@ -94,7 +118,7 @@ const App = () => {
         </tfoot>
       </table>
       <div className="checkout-button">
-        <button className="checkout">Checkout</button>
+        <button onClick={handleCheckout} className="checkout">Checkout</button>
       </div>
     </div>
     </header>

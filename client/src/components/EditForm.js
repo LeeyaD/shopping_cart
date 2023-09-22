@@ -7,7 +7,6 @@ const EditForm = ({ onShowEditForm, product }) => {
 	const [productPrice, setProductPrice] = useState(price)
 	const [productQuantity, setProductQuantity] = useState(quantity)
 
-
   const updatedProduct = {
     product
   }

@@ -28,7 +28,6 @@ const editProduct = async(id, title, price, quantity) => {
   return data
 }
 
-
 export {
   getProducts,
   addProduct,
