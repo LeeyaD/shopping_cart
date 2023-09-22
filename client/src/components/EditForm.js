@@ -1,5 +1,4 @@
 import { useState } from "react"
-// import { editProduct } from '../services/product'
 
 const EditForm = ({ onShowEditForm, product, onEditProduct }) => {
   const { _id, title, price, quantity } = product

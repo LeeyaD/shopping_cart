@@ -55,7 +55,7 @@ const Product = ({ product, onAddItem, cartItems, onDeleteProduct, onEditProduct
 					}
           <button onClick={handleShowEditForm} className="edit">Edit</button>
         </div>
-        <button onClick={handleDeleteProduct}className="delete-button"><span>X</span></button>
+        <button onClick={handleDeleteProduct} className="delete-button"><span>X</span></button>
       </div>
       {showEditForm ? <EditForm onShowEditForm={handleShowEditForm} product={product} onEditProduct={onEditProduct}/> : null}
     </li>
