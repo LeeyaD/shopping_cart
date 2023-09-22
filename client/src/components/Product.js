@@ -1,5 +1,5 @@
-const Product = ({ product, onAddItem, cartItems }) => {
-  const { title, price, quantity } = product
+const Product = ({ product, onAddItem, cartItems, onDeleteProduct }) => {
+  const { _id, title, price, quantity } = product
 
   const findProduct = (productId) => {
     for (let i = 0; i < cartItems.length; i += 1) {
@@ -20,6 +20,14 @@ const Product = ({ product, onAddItem, cartItems }) => {
     return quantity - itemQuantityInCart
   }
 
+  const handleDeleteProduct = (e) => {
+    try {
+      onDeleteProduct(_id)
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   return (
     <li className="product">
       <div className="product-details">
@@ -38,7 +46,7 @@ const Product = ({ product, onAddItem, cartItems }) => {
 					}
           <button className="edit">Edit</button>
         </div>
-        <button className="delete-button"><span>X</span></button>
+        <button onClick={handleDeleteProduct}className="delete-button"><span>X</span></button>
       </div>
     </li>
   )

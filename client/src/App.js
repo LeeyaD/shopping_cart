@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Product from './components/Product.js'
 import Form from './components/Form.js'
-import { addProduct, getProducts } from './services/product.js'
+import { addProduct, getProducts, deleteProduct } from './services/product.js'
 
 const App = () => {
   const [formVisible, setFormVisible] = useState(false)
@@ -56,6 +56,11 @@ const App = () => {
     return total.toFixed(2)
   }
 
+  const handleDeleteProduct = async(id) => {
+    await deleteProduct(id)
+    setProducts(products.filter(p => p["_id"] !== id))
+  }
+
 	return (
 		<div id="app">
       <header>
@@ -97,7 +102,7 @@ const App = () => {
       <div className="product-listing">
         <h2>Products</h2>
         <ul className="product-list">
-					{products.map(product => <Product cartItems={cartItems} onAddItem={handleCartUpdate} product={product} key={product["_id"]} />)}
+					{products.map(product => <Product cartItems={cartItems} onAddItem={handleCartUpdate} product={product} key={product["_id"]} onDeleteProduct={handleDeleteProduct}/>)}
         </ul>
       </div>
       <div className="add-form">
