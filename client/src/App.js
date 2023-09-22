@@ -17,7 +17,7 @@ const App = () => {
 	}, [])
 
   const handleAddProduct = async (title, price, quantity) => {
-    const data = addProduct(title, price, quantity)
+    const data = await addProduct(title, price, quantity)
     setProducts(products.concat(data))
   }
 
@@ -103,7 +103,7 @@ const App = () => {
       <div className="add-form">
         <p><button onClick={handleFormVisibility} className="add-product-button">Add A Product</button></p>
         <h3>Add Product</h3>
-        <Form onFormVisibilityChange={handleFormVisibility} onAddProduct={handleAddProduct}/>
+        <Form onFormVisibilityChange={handleFormVisibility} onAddProduct={handleAddProduct} />
       </div>
     </main>
   </div>
