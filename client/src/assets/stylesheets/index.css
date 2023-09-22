@@ -94,7 +94,7 @@ li {
 }
 
 button {
-  padding: 5px 12px 5px;
+  /* padding: 5px 12px 5px; */
   background: #07575b;
   color: #fff;
   border-color: transparent;
@@ -103,6 +103,7 @@ button {
   font-family: sans-serif;
   cursor: pointer;
   display: inline-block;
+  padding: 3px 8px;
 }
 
 .checkout {
@@ -110,6 +111,19 @@ button {
   color: #07575b;
   margin-top: 20px;
   float: right;
+  padding: 3px 8px;
+}
+
+.checkout:hover {
+  background: #a4efe3;
+}
+
+.clear-cart {
+  margin-left: 10px;
+}
+
+.clear-cart:hover {
+  background: #f6c7b1;
 }
 
 button:disabled {
