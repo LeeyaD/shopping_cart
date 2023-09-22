@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Product from './components/Product.js'
 import Form from './components/Form.js'
-import { addProduct, getProducts, deleteProduct } from './services/product.js'
+import { addProduct, getProducts, deleteProduct, editProduct } from './services/product.js'
 
 const App = () => {
   const [showForm, setShowForm] = useState(false)
@@ -24,6 +24,22 @@ const App = () => {
   const handleDeleteProduct = async(id) => {
     await deleteProduct(id)
     setProducts(products.filter(p => p["_id"] !== id))
+  }
+
+  const handleEditProduct = async(id, title, price, quantity ) => {
+    const updatedProduct = await editProduct(id, title, price, quantity)
+    setProducts(products.map(product => {
+      if (product._id === id) {
+        const { _id, title, price, quantity } = updatedProduct;
+        return {
+          _id,
+          title,
+          price,
+          quantity
+        };
+      }
+      return product;
+    }))
   }
 
   const handleShowForm = () => {
@@ -103,7 +119,7 @@ const App = () => {
       <div className="product-listing">
         <h2>Products</h2>
         <ul className="product-list">
-					{products.map(product => <Product cartItems={cartItems} onAddItem={handleCartUpdate} product={product} key={product["_id"]} onDeleteProduct={handleDeleteProduct}/>)}
+					{products.map(product => <Product cartItems={cartItems} onAddItem={handleCartUpdate} product={product} key={product["_id"]} onDeleteProduct={handleDeleteProduct} onEditProduct={handleEditProduct}/>)}
         </ul>
       </div>
       <div className={`add-form ${formStyle}`}>
