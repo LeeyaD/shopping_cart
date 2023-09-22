@@ -1,4 +1,8 @@
+import { useState } from "react"
+import EditForm from "./EditForm"
+
 const Product = ({ product, onAddItem, cartItems, onDeleteProduct }) => {
+  const [showEditForm, setShowEditForm] = useState(false)
   const { _id, title, price, quantity } = product
 
   const findProduct = (productId) => {
@@ -28,6 +32,11 @@ const Product = ({ product, onAddItem, cartItems, onDeleteProduct }) => {
     }
   }
 
+  const handleShowEditForm = () => {
+    const showForm = !showEditForm
+    setShowEditForm(showForm)
+  }
+
   return (
     <li className="product">
       <div className="product-details">
@@ -44,10 +53,11 @@ const Product = ({ product, onAddItem, cartItems, onDeleteProduct }) => {
 						: 
 						<button onClick={() => onAddItem(product)} className="add-to-cart">Add to Cart</button>
 					}
-          <button className="edit">Edit</button>
+          <button onClick={handleShowEditForm} className="edit">Edit</button>
         </div>
         <button onClick={handleDeleteProduct}className="delete-button"><span>X</span></button>
       </div>
+      {showEditForm ? <EditForm onShowEditForm={handleShowEditForm} product={product}/> : null}
     </li>
   )
 }
