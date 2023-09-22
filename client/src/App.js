@@ -77,6 +77,7 @@ const App = () => {
   }
 
   const handleCheckout = () => {
+    if (cartItems.length === 0) return;
     const nextProducts = products.map(product => {
       const nextProduct = {...product}
       const foundItem = cartItems.find(item => nextProduct._id === item._id && item.cartQuantity )
@@ -98,6 +99,10 @@ const App = () => {
         setProducts(nextProducts)
       })
       .catch(err => console.log(err))
+  }
+
+  const handleClearCart = () => {
+    setCartItems([])
   }
 
 	const formStyle = showForm ? "visible" : ""
@@ -134,6 +139,7 @@ const App = () => {
         </tfoot>
       </table>
       <div className="checkout-button">
+        <button onClick={handleClearCart} className="checkout clear-cart">Clear Cart</button>
         <button onClick={handleCheckout} className="checkout">Checkout</button>
       </div>
     </div>
