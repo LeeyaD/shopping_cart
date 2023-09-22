@@ -4,7 +4,7 @@ import Form from './components/Form.js'
 import { addProduct, getProducts, deleteProduct } from './services/product.js'
 
 const App = () => {
-  const [formVisible, setFormVisible] = useState(false)
+  const [showForm, setShowForm] = useState(false)
   const [products, setProducts] = useState([])
   const [cartItems, setCartItems] = useState([])
 
@@ -21,10 +21,10 @@ const App = () => {
     setProducts(products.concat(data))
   }
 
-  const handleFormVisibility = () => {
-    const visibility = !formVisible
-    setFormVisible(visibility)
-    document.querySelector(".add-form").classList.toggle("visible")
+  const handleShowForm = () => {
+    const visibility = !showForm
+    setShowForm(visibility)
+    // document.querySelector(".add-form").classList.toggle("visible")
   }
 
   const handleCartUpdate = (product) => {
@@ -60,6 +60,8 @@ const App = () => {
     await deleteProduct(id)
     setProducts(products.filter(p => p["_id"] !== id))
   }
+
+	const formStyle = showForm ? "visible" : ""
 
 	return (
 		<div id="app">
@@ -105,10 +107,10 @@ const App = () => {
 					{products.map(product => <Product cartItems={cartItems} onAddItem={handleCartUpdate} product={product} key={product["_id"]} onDeleteProduct={handleDeleteProduct}/>)}
         </ul>
       </div>
-      <div className="add-form">
-        <p><button onClick={handleFormVisibility} className="add-product-button">Add A Product</button></p>
+      <div className={`add-form ${formStyle}`}>
+        <p><button onClick={handleShowForm} className="add-product-button">Add A Product</button></p>
         <h3>Add Product</h3>
-        <Form onFormVisibilityChange={handleFormVisibility} onAddProduct={handleAddProduct} />
+        <Form onShowFormChange={handleShowForm} onAddProduct={handleAddProduct} />
       </div>
     </main>
   </div>
