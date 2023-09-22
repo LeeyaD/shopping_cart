@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Form = ({ onFormVisibilityChange, onAddProduct }) => {
+const Form = ({ onShowFormChange, onAddProduct }) => {
 	const [productName, setProductName] = useState('')
 	const [productPrice, setProductPrice] = useState('')
 	const [productQuantity, setProductQuantity] = useState('')
@@ -9,13 +9,17 @@ const Form = ({ onFormVisibilityChange, onAddProduct }) => {
 		e.preventDefault()
 		try {
 			onAddProduct(productName, Number(productPrice), Number(productQuantity))
-			setProductName('')
-			setProductPrice('')
-			setProductQuantity('')
-			onFormVisibilityChange()
+			handleCloseForm()
 		} catch(e) {
 			console.log(e)
 		}
+	}
+
+	const handleCloseForm = () => {
+		setProductName('')
+		setProductPrice('')
+		setProductQuantity('')
+		onShowFormChange()
 	}
 
 	return (
@@ -58,7 +62,7 @@ const Form = ({ onFormVisibilityChange, onAddProduct }) => {
 			</div>
 			<div className="actions form-actions">
 				<button onClick={handleAddProduct} type="submit">Add</button>
-				<button onClick={onFormVisibilityChange} type="button">Cancel</button>
+				<button onClick={handleCloseForm} type="button">Cancel</button>
 			</div>
 		</form>
 	)
