@@ -1,19 +1,16 @@
 import { useState } from "react"
-import { editProduct } from '../services/product'
+// import { editProduct } from '../services/product'
 
-const EditForm = ({ onShowEditForm, product }) => {
+const EditForm = ({ onShowEditForm, product, onEditProduct }) => {
   const { _id, title, price, quantity } = product
 	const [productName, setProductName] = useState(title)
 	const [productPrice, setProductPrice] = useState(price)
 	const [productQuantity, setProductQuantity] = useState(quantity)
 
-  const updatedProduct = {
-    product
-  }
 	const handleEditProduct = (e) => {
 		e.preventDefault()
 		try {
-			editProduct(_id, productName, Number(productPrice), Number(productQuantity))
+			onEditProduct(_id, productName, Number(productPrice), Number(productQuantity))
 			onShowEditForm()
 		} catch(e) {
 			console.log(e)
