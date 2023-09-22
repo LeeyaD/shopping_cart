@@ -21,10 +21,14 @@ const App = () => {
     setProducts(products.concat(data))
   }
 
+  const handleDeleteProduct = async(id) => {
+    await deleteProduct(id)
+    setProducts(products.filter(p => p["_id"] !== id))
+  }
+
   const handleShowForm = () => {
     const visibility = !showForm
     setShowForm(visibility)
-    // document.querySelector(".add-form").classList.toggle("visible")
   }
 
   const handleCartUpdate = (product) => {
@@ -54,11 +58,6 @@ const App = () => {
       total += item.cartQuantity * item.price
     })
     return total.toFixed(2)
-  }
-
-  const handleDeleteProduct = async(id) => {
-    await deleteProduct(id)
-    setProducts(products.filter(p => p["_id"] !== id))
   }
 
 	const formStyle = showForm ? "visible" : ""
